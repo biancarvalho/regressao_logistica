@@ -275,7 +275,14 @@ y = np.hstack((y)).T
 df.sample(5)
 \end{lstlisting}
 
-Após isso, a regressão logística foi aplicada, a precisão da previsão foi avaliada e os pesos de influência de cada variável numérica foram calculados.
+\begin{figure}[h]
+\caption{Dados selecionados}
+\centering
+\includegraphics[width=10cm]{out1.png}
+\label{figura:out1}
+\end{figure}
+
+Após isso, a regressão logística foi aplicada, a precisão da previsão foi avaliada e os pesos de influência de cada variável numérica foram calculados. A precisão desse modelo em específico foi de 1.0.
 \\
 \begin{lstlisting}
 regressor = LogisticRegression(learning_rate=0.000001, n_iters=2000)
@@ -296,6 +303,13 @@ dfpesos = pd.DataFrame({'Pesos':norma_pesos}, index=dados['X'])
 dfpesos
 \end{lstlisting}
 
+\begin{figure}[h]
+\caption{Pesos de cada variável}
+\centering
+\includegraphics[width=10cm]{out2.png}
+\label{figura:out2}
+\end{figure}
+
 \vspace{240px}
 
 Por fim, foi feita uma visualização dessa regressão.
@@ -314,8 +328,31 @@ except:
 \label{figura:regressao_linear}
 \end{figure}
 
+\vspace{40px}
+A partir disso, segue o resultado final obtido com as demais bases. 
+\\
+\begin{figure}[h]
+\caption{Resultado final - vinhos}
+\centering
+\includegraphics[width=10cm]{out4.png}
+\label{figura:out4}
+\end{figure}
 
-\newpage
+\begin{figure}[h]
+\caption{Resultado final - estudantes}
+\centering
+\includegraphics[width=10cm]{out3.png}
+\label{figura:out3}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Resultado final - câncer de mama}
+\centering
+\includegraphics[width=10cm]{out5.jpeg}
+\label{figura:out5}
+\end{figure}
+
+\clearpage
 \section{Considerações Finais}
 
 \hspace{0.4cm}Este trabalho se propôs, como objetivo geral, mostrar aplicações da regressão logística através de diferentes bases de dados. Desta forma, é possível concluir que é possível utilizar essa técnica em inúmeras áreas, onde ela sempre é destacada como uma importante ferramenta de análise de dados. 
