@@ -261,6 +261,13 @@ Nessa base, aplicamos a regressão logística para tentar prever a classe espect
 
 \hspace{0.4cm} No primeiro caso, comparando as Classes Espectrais B (muito quente) e M (muito “fria”), conseguimos atingir 100\% de precisão na aplicação do algoritmo. Porém, algo estranho de se observar é que as estrelas de Classe B estão cobrindo uma região muito dispersa de temperatura, algo incomum segundo as informações na Wikipedia.\\
 
+\begin{figure}[h]
+\caption{Estrelas - Segundo Caso}
+\centering
+\includegraphics[width=10cm]{estrelas.png}
+\label{figura:estrelas}
+\end{figure}
+
 \begin{lstlisting}
 df = df[(df['Spectral Class'] == 'A') | (df['Spectral Class'] == 'F')]
 df['Spectral Class'].replace(to_replace='A', value=1, inplace=True)
@@ -331,12 +338,13 @@ except:
 \hspace{0.4cm}No segundo caso, percebemos o que acontece. Nessa base, apenas as estrelas de classe M e as estrelas situadas na chamada Faixa Principal (região circulada) estão corretamente classificadas, enquanto as outras estão seguindo outro padrão. Por isso, ao aplicarmos a regressão logística em duas classes estelares diferentes de M e que saem da Faixa Principal (nesse caso, A e F), o algoritmo encontra outro padrão (fisicamente incorreto) e dá mais peso para a Magnitude Absoluta.
 
 \begin{figure}[h]
-\caption{Estrelas - Segundo Caso}
-\centering
-\includegraphics[width=10cm]{estrelas.png}
-\label{figura:estrelas}
+    \caption{Classes Espectrais - Estrelas}
+    \centering
+    \includegraphics[width=8cm]{out7.png}
+    \label{figura:out7}
 \end{figure}
 
+\clearpage
 Como as classes A e F estão muito próximas em temperatura, mesmo essa pequena inclinação em relação a temperatura significa um peso relativamente grande (30\%), mas nem por isso a Magnitude Absoluta deixa de ser mais importante (absurdos 70\%). 
 
 \begin{figure}[h]
