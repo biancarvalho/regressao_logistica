@@ -250,7 +250,16 @@ dfpesos = pd.DataFrame({'Pesos':norma_pesos}, index=dados['X'])
 dfpesos
 \end{lstlisting}
 
-Nesse exemplo, foram comparadas as estrelas brancas (A ou 1) com as estrelas branco-amareladas (F ou 0), com o intuito de prever a qual dessas classes espectrais as estrelas pertencem a partir de sua temperatura e sua magnitude absoluta (magnitude aparente de um objeto celeste a uma distância padrão de 10 parsecs do observador).\\
+\begin{figure}[h]
+\caption{Pesos de cada variável}
+\centering
+\includegraphics[width=10cm]{out2.png}
+\label{figura:out2}
+\end{figure}
+
+Nessa base, aplicamos a regressão logística para tentar prever a classe espectral das estrelas. Sabendo que a Classe Espectral de uma estrela é principalmente baseada em sua temperatura, mas geralmente mostrada em um gráfico de correlação temperatura x magnitude absoluta, utilizamos essas duas propriedades numéricas como colunas para a análise da regressão logística.
+
+\hspace{0.4cm} No primeiro caso, comparando as Classes Espectrais B (muito quente) e M (muito “fria”), conseguimos atingir 100\% de precisão na aplicação do algoritmo. Porém, algo estranho de se observar é que as estrelas de Classe B estão cobrindo uma região muito dispersa de temperatura, algo incomum segundo as informações na Wikipedia.\\
 
 \begin{lstlisting}
 df = df[(df['Spectral Class'] == 'A') | (df['Spectral Class'] == 'F')]
@@ -282,7 +291,7 @@ df.sample(5)
 \label{figura:out1}
 \end{figure}
 
-Após isso, a regressão logística foi aplicada, a precisão da previsão foi avaliada e os pesos de influência de cada variável numérica foram calculados. A precisão desse modelo em específico foi de 1.0.
+Após isso, a regressão logística foi aplicada e a precisão da previsão foi avaliada. A precisão desse modelo em específico foi de 100\%.
 \\
 \begin{lstlisting}
 regressor = LogisticRegression(learning_rate=0.000001, n_iters=2000)
@@ -303,15 +312,6 @@ dfpesos = pd.DataFrame({'Pesos':norma_pesos}, index=dados['X'])
 dfpesos
 \end{lstlisting}
 
-\begin{figure}[h]
-\caption{Pesos de cada variável}
-\centering
-\includegraphics[width=10cm]{out2.png}
-\label{figura:out2}
-\end{figure}
-
-\vspace{240px}
-
 Por fim, foi feita uma visualização dessa regressão.
 \\
 \begin{lstlisting}
@@ -328,29 +328,84 @@ except:
 \label{figura:regressao_linear}
 \end{figure}
 
-\vspace{40px}
-A partir disso, segue o resultado final obtido com as demais bases. 
+\hspace{0.4cm}No segundo caso, percebemos o que acontece. Nessa base, apenas as estrelas de classe M e as estrelas situadas na chamada Faixa Principal (região circulada) estão corretamente classificadas, enquanto as outras estão seguindo outro padrão. Por isso, ao aplicarmos a regressão logística em duas classes estelares diferentes de M e que saem da Faixa Principal (nesse caso, A e F), o algoritmo encontra outro padrão (fisicamente incorreto) e dá mais peso para a Magnitude Absoluta.
+
+\begin{figure}[h]
+\caption{Estrelas - Segundo Caso}
+\centering
+\includegraphics[width=10cm]{estrelas.png}
+\label{figura:estrelas}
+\end{figure}
+
+Como as classes A e F estão muito próximas em temperatura, mesmo essa pequena inclinação em relação a temperatura significa um peso relativamente grande (30\%), mas nem por isso a Magnitude Absoluta deixa de ser mais importante (absurdos 70\%). 
+
+\begin{figure}[h]
+\caption{Pesos Variáveis Independentes - Segundo Caso}
+\centering
+\includegraphics[width=10cm]{out6.png}
+\label{figura:out6}
+\end{figure}
+
+\hspace{0.4cm}Apesar da inadequação física, esse fica sendo um ótimo exemplo de como o algoritmo funciona (além de um grande aprendizado sobre averiguar as bases antes de iniciar as análises).
+
+
+\clearpage
+\hspace{0.4cm}A partir disso, segue o resultado final obtido com as demais bases. 
 \\
-\begin{figure}[h]
-\caption{Resultado final - vinhos}
-\centering
-\includegraphics[width=10cm]{out4.png}
-\label{figura:out4}
-\end{figure}
 
-\begin{figure}[h]
-\caption{Resultado final - estudantes}
-\centering
-\includegraphics[width=10cm]{out3.png}
-\label{figura:out3}
-\end{figure}
+\begin{itemize}
+    \item \textbf{Estudantes}\\
+    
+    \hspace{0.4cm}Neste exemplo, a nota do pré-teste foi utilizada para prever se a nota do pós-teste será maior ou igual a 7. A precisão deste modelo foi de 89\% e conseguimos ver que essa variável independente tem grande influência na nota do pós-teste. A partir dessa análise, foi possível concluir que alunos com a nota igual ou superior à 58 no pré-teste teriam uma nota igual ou superior à 7 no pós-teste.
+    
+    
+    \begin{figure}[h]
+    \caption{Gráfico sobre os estudantes}
+    \centering
+    \includegraphics[width=10cm]{estudantes.jpg}
+    \label{figura:estudantes}
+    \end{figure}
+    
+    \begin{figure}[h]
+    \caption{Resultado final - estudantes}
+    \centering
+    \includegraphics[width=10cm]{out4.png}
+    \label{figura:out3}
+    \end{figure}
+    
+    \vspace{50px}
+    
+    \item \textbf{Vinhos}
+    
+    \hspace{0.4cm}Nem toda aplicação de regressão logística pode ser perfeitamente transformada em um exemplo visual bidimensional. Nesta análise, por exemplo, de previsão de avaliação de vinhos, isso foi impossível. Isso porque o algoritmo não dava resultados suficientemente precisos utilizando apenas 2 variáveis numéricas, então utilizamos 7 das colunas disponíveis para tentar prever quais vinhos receberam nota superior a 6 (nota considerada muito boa - sommeliers são muito mesquinhos com notas).
 
-\begin{figure}[h]
-\caption{Resultado final - câncer de mama}
-\centering
-\includegraphics[width=10cm]{out5.jpeg}
-\label{figura:out5}
-\end{figure}
+    \hspace{0.4cm}Se utilizando 2 variáveis nosso ápice de precisão foi ~54\%, utilizando essas 7 variáveis escolhidas a dedo conseguimos atingir 74.6\% de precisão. A desvantagem nesse caso é que, por usarmos 7 variáveis, não é possível mostrar um belo gráfico em sete dimensões que mostre a melhor decisão da regressão logística, então só podemos nos contentar com a exibição dos pesos escolhidos para cada coluna. Dessa tabela, é interessante perceber, por exemplo, o quanto a quantidade de álcool está positivamente relacionada com a nota.
+
+    \begin{figure}[h]
+    \caption{Resultado final - vinhos}
+    \centering
+    \includegraphics[width=10cm]{out3.png}
+    \label{figura:out4}
+    \end{figure}
+    
+    \hspace{0.4cm}Além disso, é importante notar que, embora o resultado usando 7 variáveis tenha sido muito mais preciso que o resultado usando 2, nem sempre aumentar o número de variáveis significa um aumento de precisão. Nesse mesmo exemplo, se usássemos todas as 11 colunas numéricas disponíveis na base, nosso ápice de precisão seria um pouco menor (~73\%). Isso acontecia porque as outras variáveis, como, por exemplo, “chlorides”, tinham correlação real nula com a nota dos vinhos, mas, como o algoritmo sempre busca encontrar um padrão, essa variável recebia um peso (ainda que pequeno) que prejudicava a qualidade da previsão.
+	
+	\hspace{0.4cm}Diante dessa situação, nosso método foi utilizar inicialmente todas as colunas na regressão logística e depois selecionar apenas as que tinham um peso de 3\% ou mais em relação ao total.
+
+    
+    \item \textbf{Câncer de mama}
+    
+    \hspace{0.4cm}Este exemplo é muito famoso no campo da regressão logística, devido a isso, essa base já possui uma \textit{learning rate} ótima conhecida e se tornou substancialmente previsível. Além disso, é um ótimo retrato da importância dos modelos de predição para a sociedade.
+    
+    \hspace{0.4cm}Os dados dessa base foram calculados a partir de uma imagem digitalizada de uma massa mamária e descrevem as características dos núcleos celulares presentes na imagem. É importante ressaltar que apesar de nenhuma característica por si só ter uma influência excepcional no resultado final, algumas podem ser destacadas, como as propriedades da área e do perímetro dos núcleos. A precisão desse modelo é de 90\%. 
+    
+    \begin{figure}[h]
+    \caption{Resultado final - câncer de mama}
+    \centering
+    \includegraphics[width=10cm]{out5.jpeg}
+    \label{figura:out5}
+    \end{figure}
+\end{itemize}
 
 \clearpage
 \section{Considerações Finais}
